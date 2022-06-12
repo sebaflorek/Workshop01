@@ -2,11 +2,9 @@ package pl.coderslab;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TaskManager {
@@ -18,11 +16,34 @@ public class TaskManager {
     // ======================= MAIN ============================
 
     public static void main(String[] args) {
-
-        System.out.println(ConsoleColors.BLUE + "Actual tasks:" + ConsoleColors.RESET);
+        tasks = fileToTab(file_name);
         printFile(file_name);
         printHead(options);
-        fileToTab(file_name);
+        //printTaskTab(tasks);
+
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String dataInput = scanner.nextLine();
+            switch (dataInput) {
+                case "add":
+                    System.out.println("METODA ADD W BUDOWIE");
+                    break;
+                case "remove":
+                    System.out.println("METODA REMOVE W BUDOWIE");
+                    break;
+                case "list":
+                    printTaskTab(tasks);
+                    break;
+                case "exit":
+                    System.out.println(ConsoleColors.RED + "Bye, bye.");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println(ConsoleColors.RED + "Wrong option - try again!" + ConsoleColors.RESET);
+                    //printHead(options);
+            }
+            printHead(options);
+        }
 
 
     }
@@ -32,13 +53,17 @@ public class TaskManager {
     // DRUKOWANIE OPCJI PROGRAMU
     public static void printHead(String[] tab) {
         System.out.println(ConsoleColors.BLUE + "Please select an option" + ConsoleColors.RESET);
-        for (int i = 0; i < options.length; i++) {
-            System.out.println(options[i]);
+        for (String s : tab) {
+            System.out.println(s);
         }
     }
 
     // DRUKOWANIE PLIKU Z ZADANIAMI
     public static void printFile(String fileName) {
+        Path dir = Paths.get(fileName);
+        if (Files.exists(dir)) {
+            System.out.println(ConsoleColors.BLUE + "Actual tasks saved in file: " + ConsoleColors.YELLOW + file_name + ConsoleColors.RESET);
+        }
         File file = new File(fileName);
         StringBuilder reader = new StringBuilder();
         try {
@@ -61,9 +86,8 @@ public class TaskManager {
         //    System.out.println(ConsoleColors.RED + "File not found" + ConsoleColors.RESET);
         //}
         File file = new File(fileName);
-        StringBuilder reader = new StringBuilder();
         int counter = 0;
-        String[] singleTask = new String[3];
+        String[] singleTask;
         try {
             Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
@@ -88,8 +112,18 @@ public class TaskManager {
         } catch (FileNotFoundException e) {
             System.out.println(ConsoleColors.RED + "File not found" + ConsoleColors.RESET);
         }
-        // System.out.println(Arrays.deepToString(tasksTab));
+        //System.out.println(Arrays.deepToString(tasksTab));
         return tasksTab;
+    }
+
+    public static void printTaskTab(String[][] tab) {
+        for (int i = 0; i < tab.length; i++) {
+            System.out.print(i + " : ");
+            for (int k = 0; k < tab[i].length; k++) {
+                System.out.print(tab[i][k] + " ");
+            }
+            System.out.println();
+        }
     }
 
 
