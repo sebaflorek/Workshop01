@@ -4,6 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 public class TaskManager {
 
     static final String[] options = {"add", "remove", "list", "exit"};
-    static final String file_name = "tasks.csv";
+    static final String file_name = "tasks_test.csv";
     static String[][] tasks;
 
     // ======================= MAIN ============================
@@ -83,7 +84,7 @@ public class TaskManager {
         } catch (FileNotFoundException e) {
             System.out.println(ConsoleColors.RED + "File not found" + ConsoleColors.RESET);
         }
-        System.out.println(reader);
+        System.out.print(reader);
     }
 
     // WYDRUKOWANIE ZAPISANEGO PLIKU
@@ -131,11 +132,11 @@ public class TaskManager {
     public static void addTask() {
         Scanner scanAdd = new Scanner(System.in);
         System.out.println("Please describe the new task:");
-        String newDescription = scanAdd.next();
+        String newDescription = scanAdd.nextLine();
         System.out.println("Please add a due date for new task <year-month-day>");
-        String newDate = scanAdd.next();
+        String newDate = scanAdd.nextLine();
         System.out.println("Is the task important? Write true or false");
-        String isImportant = scanAdd.next();
+        String isImportant = scanAdd.nextLine();
         tasks = Arrays.copyOf(tasks, tasks.length + 1);
         tasks[tasks.length - 1] = new String[3];
         tasks[tasks.length - 1][0] = newDescription;
@@ -174,17 +175,19 @@ public class TaskManager {
         try {
             Files.copy(dir, backupDir, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            System.err.println(e);
+            throw new RuntimeException();
         }
 
         String[] lines = new String[tab.length];
         for (int i = 0; i < tab.length; i++) {
             lines[i] = String.join(", ", tab[i]);
         }
-        System.out.println(Arrays.deepToString(tasks));
-
-
+        try (FileWriter writer = new FileWriter("tasks_test.csv")) {
+            for (int i = 0; i < tab.length; i++) {
+                writer.write(lines[i] + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-
 }
