@@ -4,7 +4,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,7 +16,7 @@ import java.util.Scanner;
 public class TaskManager {
 
     static final String[] options = {"add", "remove", "list", "exit"};
-    static final String file_name = "tasks_test.csv";
+    static final String file_name = "tasks.csv";
     static String[][] tasks;
 
     // ======================= MAIN ============================
@@ -170,7 +169,7 @@ public class TaskManager {
     // WYJŚCIE Z PROGRAMU
     public static void saveTasksToFile(String filename, String[][] tab) {
         Path dir = Paths.get(filename);
-        Path backupDir = Paths.get("backup.csv");
+        Path backupDir = Paths.get("tasks_backup.csv");
         // Tworzymy backup :)
         try {
             Files.copy(dir, backupDir, StandardCopyOption.REPLACE_EXISTING);
@@ -182,10 +181,18 @@ public class TaskManager {
         for (int i = 0; i < tab.length; i++) {
             lines[i] = String.join(", ", tab[i]);
         }
-        try (FileWriter writer = new FileWriter("tasks_test.csv")) {
-            for (int i = 0; i < tab.length; i++) {
-                writer.write(lines[i] + System.lineSeparator());
+        /* Przed optymalizacją
+        try {
+            try (FileWriter writer = new FileWriter("tasks.csv")) {
+                for (int i = 0; i < tab.length; i++) {
+                    writer.write(lines[i] + System.lineSeparator());
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+         */
+        try {
+            Files.write(dir, Arrays.asList(lines));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
