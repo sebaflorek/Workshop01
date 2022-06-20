@@ -86,7 +86,7 @@ public class TaskManager {
         System.out.print(reader);
     }
 
-    // WYDRUKOWANIE ZAPISANEGO PLIKU
+    // KONWERSJA PLIKU DO TABLICY[][]
     public static String[][] fileToTab(String fileName) {
         File file = new File(fileName);
         int counter = 0;
@@ -116,7 +116,7 @@ public class TaskManager {
         return tasksTab;
     }
 
-    // KONWERSJA PLIKU DO TABLICY[][]
+    // WYDRUKOWANIE TABLICY
     public static void printTaskTab(String[][] tab) {
         for (int i = 0; i < tab.length; i++) {
             System.out.print(i + " : ");
@@ -163,6 +163,8 @@ public class TaskManager {
                 System.out.println(ConsoleColors.RED + "Task number " + taskNumber + " does not exist. Try again." + ConsoleColors.RESET);
                 removeTask();
             }
+        } else {
+            System.out.println(ConsoleColors.RED + "Task number " + taskNumber + " is negative. Try again. " + ConsoleColors.RESET);
         }
     }
 
