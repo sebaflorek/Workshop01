@@ -51,8 +51,6 @@ public class TaskManager {
             }
             printHead(options);
         }
-
-
     }
 
     // ===================== METODY ============================

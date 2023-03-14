@@ -1,7 +1,7 @@
 package pl.coderslab;
 
 
-/**
+/*
  * https://stackoverflow.com/a/45444716
  */
 public class ConsoleColors {

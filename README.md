@@ -1,15 +1,11 @@
-# Coders Lab - Warsztat 01 :
-Niniejszy warsztar zawiera program konsolowy TaskManager do zarządania zadaniami.
+# Coders Lab - Workshop 01 :
+TaskManager - simple task management console program.
 ## Task Manager
-> Poniżej przedtsawiam opis działania programu:
+> Available commands
 
-1. Przykładowy tekst
-2. Przykładowy teskt.
-
-
-Przykładowy tekst.
-Przykładowy tekst.\
-Przykładowy tekst.\
-Przykładowy tekst.
+1. add - add new task
+2. remove - delete taks
+3. list - show all tasks
+4. exit - save current tasks and exit (makes a backup before changes were made)
 
 
